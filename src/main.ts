@@ -1,87 +1,97 @@
-'use script'
-// elements declarations
-const homepageButton = document.querySelector('.entry_point');
-const homepage = document.querySelector('main');
-const mainRoomsContainer = document.querySelector('.application_container');
-const advanceFeaturesContainer = document.querySelector('.advanced_features_container');
-const nav = document.querySelector('nav');
-const loader = document.querySelector('.loader-container');
+'use strict';
 
-// imports
+// Elements Declarations
+const homepageButton = document.querySelector('.entry_point') as HTMLElement | null;
+const homepage = document.querySelector('main') as HTMLElement | null;
+const mainRoomsContainer = document.querySelector('.application_container') as HTMLElement | null;
+const advanceFeaturesContainer = document.querySelector('.advanced_features_container') as HTMLElement | null;
+const nav = document.querySelector('nav') as HTMLElement | null;
+const loader = document.querySelector('.loader-container') as HTMLElement | null;
+
+// Imports
 import Light from './basicSettings.js';
 import AdvanceSettings from './advanceSettings.js';
 
-// object creation
+// Object Creation
 const lightController = new Light();
 const advancedSettings = new AdvanceSettings();
 
-// global variables
-let selectedComponent;
-let isWifiActive = true;
+// Global Variables
+let selectedComponent: any;
+let isWifiActive: boolean = true;
 
-// Event handlers
-// hide homepage after button is clicked
-homepageButton.addEventListener('click', function(e) {
+// Event Handlers
+
+// Hide homepage after button is clicked
+homepageButton?.addEventListener('click', function (e: Event): void {
+    if (!homepage || !loader || !mainRoomsContainer || !nav) return;
+
     lightController.addHidden(homepage);
     lightController.removeHidden(loader);
-    
+
     setTimeout(() => {
         lightController.removeHidden(mainRoomsContainer);
         lightController.removeHidden(nav);
     }, 1000);
-})
+});
 
-
-mainRoomsContainer.addEventListener('click', (e) => {
-    const selectedElement = e.target;
+// Main container click events
+mainRoomsContainer?.addEventListener('click', (e: Event): void => {
+    const selectedElement = e.target as HTMLElement;
 
     // when click occurs on light switch
     if (selectedElement.closest(".light-switch")) {
-        const lightSwitch = selectedElement.closest(".basic_settings_buttons").firstElementChild;
-        lightController.toggleLightSwitch(lightSwitch);
+        const lightSwitch = selectedElement.closest(".basic_settings_buttons")?.firstElementChild as HTMLElement | null;
+        if (lightSwitch) {
+            lightController.toggleLightSwitch(lightSwitch);
+        }
         return;
     }
 
     // when click occurs on advance modal
     if (selectedElement.closest('.advance-settings_modal')) {
-        const advancedSettingsBtn = selectedElement.closest('.advance-settings_modal');
-        advancedSettings.modalPopUp(advancedSettingsBtn);
+        const advancedSettingsBtn = selectedElement.closest('.advance-settings_modal') as HTMLElement | null;
+        if (advancedSettingsBtn) {
+            advancedSettings.modalPopUp(advancedSettingsBtn);
+        }
     }
 });
 
-mainRoomsContainer.addEventListener('change', (e) => {
-    const slider = e.target;
-    const value = slider.value;
+// Light intensity slider change
+mainRoomsContainer?.addEventListener('change', (e: Event): void => {
+    const slider = e.target as HTMLInputElement;
+    const value = Number(slider.value);
 
-    lightController.handleLightIntensitySlider(slider, value);
-    
-})
+    if (!isNaN(value)) {
+        lightController.handleLightIntensitySlider(slider, value);
+    }
+});
 
-// advance settings modal
-advanceFeaturesContainer.addEventListener('click', (e) => {
-    const selectedElement = e.target;
+// Advance Settings modal interactions
+advanceFeaturesContainer?.addEventListener('click', (e: Event): void => {
+    const selectedElement = e.target as HTMLElement;
 
     if (selectedElement.closest('.close-btn')) {
-       advancedSettings.closeModalPopUp()
+        advancedSettings.closeModalPopUp();
     }
 
-    // display customization markup
+    // Display customization markup
     if (selectedElement.closest('.customization-btn')) {
         advancedSettings.displayCustomization(selectedElement);
     }
 
-    // set light on time customization
+    // Set light on time customization
     if (selectedElement.matches('.defaultOn-okay')) {
         advancedSettings.customizeAutomaticOnPreset(selectedElement);
     }
-    
-    // set light off time customization
+
+    // Set light off time customization
     if (selectedElement.matches('.defaultOff-okay')) {
         advancedSettings.customizeAutomaticOffPreset(selectedElement);
     }
 
-    // cancel light time customization
-    if (selectedElement.textContent.includes("Cancel")) {
+    // Cancel light time customization
+    if (selectedElement.textContent?.includes("Cancel")) {
         if (selectedElement.matches('.defaultOn-cancel')) {
             advancedSettings.customizationCancelled(selectedElement, '.defaultOn');
         } else if (selectedElement.matches('.defaultOff-cancel')) {
@@ -89,4 +99,3 @@ advanceFeaturesContainer.addEventListener('click', (e) => {
         }
     }
 });
-
