@@ -21,11 +21,18 @@ class AdvanceSettings extends Light {
         _AdvanceSettings_instances.add(this);
     }
     modalPopUp(element) {
+        console.log('modalPopUp called with:', element);
         const selectedRoom = this.getSelectedComponentName(element);
+        console.log('selectedRoom:', selectedRoom);
         const componentData = this.getComponent(selectedRoom);
+        console.log('componentData:', componentData);
         const parentElement = this.selector('.advanced_features_container');
         if (!parentElement)
             return;
+        if (!componentData) {
+            console.error('No component data found for:', selectedRoom);
+            return;
+        }
         this.removeHidden(parentElement);
         // display modal view
         this.renderHTML(__classPrivateFieldGet(this, _AdvanceSettings_instances, "m", _AdvanceSettings_markup).call(this, componentData), 'afterbegin', parentElement);
@@ -139,7 +146,64 @@ _AdvanceSettings_instances = new WeakSet(), _AdvanceSettings_markup = function _
     const { name, numOfLights, autoOn, autoOff } = component;
     return `
         <div class="advanced_features">
-            <!-- (markup content unchanged) -->
+            <h3>Advanced features</h3>
+            <section class="component_summary">
+                <div>
+                    <p class="component_name">${this.capFirstLetter(name)}</p>
+                    <p class="number_of_lights">${numOfLights}</p>
+                </div>
+                <div>
+                    <p class="auto_on">
+                        <span>Automatic turn on:</span>
+                        <span>${autoOn}</span>
+                    </p>
+                    <p class="auto_off">
+                        <span>Automatic turn off:</span>
+                        <span>${autoOff}</span>
+                    </p>
+                </div>
+            </section>
+            <section class="customization">
+                <div class="edit">
+                    <p>Customize</p>
+                    <button class="customization-btn">
+                        <img src="./assets/svgs/edit.svg" alt="customize settings svg icon">
+                    </button>
+                </div>
+                <section class="customization-details hidden">
+                    <div>
+                        <h4>Automatic on/off settings</h4>
+                        <div class="defaultOn">
+                            <label for="">Turn on</label>
+                            <input type="time" name="autoOnTime" id="autoOnTime">
+                            <div>
+                                <button class="defaultOn-okay">Okay</button>
+                                <button class="defaultOn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="defaultOff">
+                            <label for="">Go off</label>
+                            <input type="time" name="autoOffTime" id="autoOffTime">
+                            <div>
+                                <button class="defaultOff-okay">Okay</button>
+                                <button class="defaultOff-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="summary">
+                    <h3>Summary</h3>
+                    <div class="chart-container">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </section>
+                <button class="close-btn">
+                    <img src="./assets/svgs/close.svg" alt="close button svg icon">
+                </button>
+            </section>
+            <button class="close-btn">
+                <img src="./assets/svgs/close.svg" alt="close button svg icon">
+            </button>
         </div>
         `;
 }, _AdvanceSettings_analyticsUsage = function _AdvanceSettings_analyticsUsage(data) {

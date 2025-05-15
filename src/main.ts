@@ -1,13 +1,12 @@
 'use strict';
 
 // Elements Declarations
-const homepageButton = document.querySelector('.entry_point') as HTMLElement | null;
-const homepage = document.querySelector('main') as HTMLElement | null;
-const mainRoomsContainer = document.querySelector('.application_container') as HTMLElement | null;
-const advanceFeaturesContainer = document.querySelector('.advanced_features_container') as HTMLElement | null;
-const nav = document.querySelector('nav') as HTMLElement | null;
-const loader = document.querySelector('.loader-container') as HTMLElement | null;
-
+const homepageButton = document.querySelector('.entry_point') as HTMLElement;
+const homepage = document.querySelector('main') as HTMLElement;
+const mainRoomsContainer = document.querySelector('.application_container') as HTMLElement;
+const advanceFeaturesContainer = document.querySelector('.advanced_features_container') as HTMLElement;
+const nav = document.querySelector('nav') as HTMLElement;
+const loader = document.querySelector('.loader-container') as HTMLElement;
 // Imports
 import Light from './basicSettings.js';
 import AdvanceSettings from './advanceSettings.js';
@@ -41,7 +40,7 @@ mainRoomsContainer?.addEventListener('click', (e: Event): void => {
 
     // when click occurs on light switch
     if (selectedElement.closest(".light-switch")) {
-        const lightSwitch = selectedElement.closest(".basic_settings_buttons")?.firstElementChild as HTMLElement | null;
+        const lightSwitch = selectedElement.closest(".basic_settings_buttons")?.firstElementChild as HTMLElement ;
         if (lightSwitch) {
             lightController.toggleLightSwitch(lightSwitch);
         }
@@ -50,7 +49,7 @@ mainRoomsContainer?.addEventListener('click', (e: Event): void => {
 
     // when click occurs on advance modal
     if (selectedElement.closest('.advance-settings_modal')) {
-        const advancedSettingsBtn = selectedElement.closest('.advance-settings_modal') as HTMLElement | null;
+        const advancedSettingsBtn = selectedElement.closest('.advance-settings_modal') as HTMLElement ;
         if (advancedSettingsBtn) {
             advancedSettings.modalPopUp(advancedSettingsBtn);
         }
