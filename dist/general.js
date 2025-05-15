@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 class General {
     constructor() {
         this.componentsData = {
             hall: { name: 'hall', lightIntensity: 5, numOfLights: 6, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [22, 11, 12, 10, 12, 17, 22] },
             bedroom: { name: 'bedroom', lightIntensity: 5, numOfLights: 3, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [18, 5, 7, 5, 6, 6, 18] },
             bathroom: { name: 'bathroom', lightIntensity: 5, numOfLights: 1, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [2, 1, 1, 1, 1, 3, 3] },
-            ['outdoor lights']: { name: 'outdoor lights', lightIntensity: 5, numOfLights: 6, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [15, 12, 13, 9, 12, 13, 18] },
-            ['guest room']: { name: 'guest room', lightIntensity: 5, numOfLights: 4, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [12, 10, 3, 9, 5, 5, 18] },
+            'outdoor lights': { name: 'outdoor lights', lightIntensity: 5, numOfLights: 6, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [15, 12, 13, 9, 12, 13, 18] },
+            'guest room': { name: 'guest room', lightIntensity: 5, numOfLights: 4, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [12, 10, 3, 9, 5, 5, 18] },
             kitchen: { name: 'kitchen', lightIntensity: 5, numOfLights: 3, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [12, 19, 13, 11, 12, 13, 18] },
-            [['walkway & corridor']]: { name: 'walkway & corridor', lightIntensity: 5, numOfLights: 8, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [12, 19, 13, 15, 22, 23, 18] },
+            'walkway & corridor': { name: 'walkway & corridor', lightIntensity: 5, numOfLights: 8, isLightOn: false, autoOn: '06:30', autoOff: '22:00', usage: [12, 19, 13, 15, 22, 23, 18] },
         };
         this.wifiConnections = [
             { id: 0, wifiName: 'Inet service', signal: 'excellent' },
@@ -27,8 +25,9 @@ class General {
         return this.wifiConnections;
     }
     getSelectedComponentName(element, ancestorIdentifier = '.rooms', elementSelector = 'p') {
+        var _a;
         const selectedElement = this.closestSelector(element, ancestorIdentifier, elementSelector);
-        const name = selectedElement.textContent.toLowerCase();
+        const name = ((_a = selectedElement === null || selectedElement === void 0 ? void 0 : selectedElement.textContent) === null || _a === void 0 ? void 0 : _a.toLowerCase()) || '';
         return name;
     }
     getComponentData(element, ancestorIdentifier, childElement) {
@@ -66,7 +65,7 @@ class General {
         element.style.filter = `brightness(${lightIntensity})`;
     }
     updateComponentData(data) {
-        this.componentsData;
+        // Placeholder: (Your logic to update componentsData can be added here)
     }
     updateMarkupValue(element, value) {
         element.textContent = value;
@@ -95,10 +94,12 @@ class General {
         else {
             parent = this.selector(`.${roomData.name}`);
         }
-        const buttonElement = parent.querySelector('.light-switch');
-        if (roomData['element'])
+        if (!parent)
             return;
-        roomData['element'] = buttonElement;
+        const buttonElement = parent.querySelector('.light-switch');
+        if (roomData.element)
+            return;
+        roomData.element = buttonElement;
     }
     formatTextToClassName(name) {
         const words = name.split(' ');
@@ -106,4 +107,4 @@ class General {
         return newWord;
     }
 }
-exports.default = General;
+export default General;

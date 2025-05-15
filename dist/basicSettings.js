@@ -1,10 +1,6 @@
 'use strict';
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const general_js_1 = __importDefault(require("./general.js"));
-class Light extends general_js_1.default {
+import General from "./general.js";
+class Light extends General {
     constructor() {
         super();
     }
@@ -35,7 +31,6 @@ class Light extends general_js_1.default {
         lightButtonElement.setAttribute('src', './assets/svgs/light_bulb_off.svg');
         lightButtonElement.setAttribute('data-lightOn', './assets/svgs/light_bulb.svg');
     }
-    ;
     lightComponentSelectors(lightButtonElement) {
         const room = this.getSelectedComponentName(lightButtonElement);
         const componentData = this.getComponent(room[0]);
@@ -46,7 +41,7 @@ class Light extends general_js_1.default {
     toggleLightSwitch(lightButtonElement) {
         const { componentData: component, childElement, background } = this.lightComponentSelectors(lightButtonElement);
         const slider = this.closestSelector(lightButtonElement, '.rooms', '#light_intensity');
-        if (!component)
+        if (!component || !slider)
             return;
         component.isLightOn = !component.isLightOn;
         if (component.isLightOn) {
@@ -54,20 +49,22 @@ class Light extends general_js_1.default {
             component.lightIntensity = 5;
             const lightIntensity = component.lightIntensity / 10;
             this.handleLightIntensity(background, lightIntensity);
-            slider.value = component.lightIntensity;
+            slider.value = component.lightIntensity.toString();
         }
         else {
             this.lightSwitchOff(childElement);
             this.handleLightIntensity(background, 0);
-            slider.value = 0;
+            slider.value = '0';
         }
     }
     handleLightIntensitySlider(element, intensity) {
         const { componentData } = this.lightComponentSelectors(element);
-        if (typeof (intensity) !== 'number' || typeof (intensity) === isNaN)
+        if (typeof intensity !== 'number' || isNaN(intensity))
             return;
         componentData.lightIntensity = intensity;
         const lightSwitch = this.closestSelector(element, '.rooms', '.light-switch');
+        if (!lightSwitch)
+            return;
         if (intensity === 0) {
             componentData.isLightOn = false;
             this.sliderLight(componentData.isLightOn, lightSwitch);
@@ -91,4 +88,4 @@ class Light extends general_js_1.default {
         }
     }
 }
-exports.default = Light;
+export default Light;
