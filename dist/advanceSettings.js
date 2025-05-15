@@ -21,18 +21,11 @@ class AdvanceSettings extends Light {
         _AdvanceSettings_instances.add(this);
     }
     modalPopUp(element) {
-        console.log('modalPopUp called with:', element);
         const selectedRoom = this.getSelectedComponentName(element);
-        console.log('selectedRoom:', selectedRoom);
         const componentData = this.getComponent(selectedRoom);
-        console.log('componentData:', componentData);
         const parentElement = this.selector('.advanced_features_container');
         if (!parentElement)
             return;
-        if (!componentData) {
-            console.error('No component data found for:', selectedRoom);
-            return;
-        }
         this.removeHidden(parentElement);
         // display modal view
         this.renderHTML(__classPrivateFieldGet(this, _AdvanceSettings_instances, "m", _AdvanceSettings_markup).call(this, componentData), 'afterbegin', parentElement);
