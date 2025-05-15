@@ -139,7 +139,7 @@ class AdvanceSettings extends Light {
 
     customizeAutomaticOnPreset(selectedElement: HTMLElement): void {
         const element = this.closestSelector(selectedElement, '.defaultOn', 'input') as HTMLInputElement | null;
-        if (!element || !element.value) return;
+        if (!element || !element.value) return; //Bug Fix - if (!!value) return; The value variable was set to false because it had double negation.
 
         const component = this.getComponentData(element, '.advanced_features', '.component_name');
         component.autoOn = element.value;
