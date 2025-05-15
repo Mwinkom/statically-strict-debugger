@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "ts-node src/main.ts",
     "build": "tsc",
-    "start": "node dist/main.js"
+    "start": "node dist/main.js",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,15 @@
   "homepage": "https://github.com/Mwinkom/statically-strict-debugger#readme",
   "description": "",
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.18",
+    "@types/testing-library__dom": "^7.0.2",
+    "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^3.1.10",
+    "ts-jest": "^29.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

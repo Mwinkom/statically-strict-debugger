@@ -1,6 +1,6 @@
 'use strict';
 
-import General from "./general.js";
+import General from "./general";
 
 class Light extends General {
     constructor() {
